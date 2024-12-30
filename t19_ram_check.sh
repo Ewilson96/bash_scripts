@@ -11,14 +11,14 @@ main() {
     walk_mB=$((walk_kB / 1024))
     walk_hn=$(snmpwalk -v 2c -c samnocrw $i 1.3.6.1.2.1.1.5.0 | awk {'print $4'})
     sleep 1
-    hn=$(sshpass -p 'Image4Jup!' timeout 25 ssh -q -o StrictHostKeyChecking=no root@$i 'hostname; exit')
+    hn=$(sshpass -p 'xxxx' timeout 25 ssh -q -o StrictHostKeyChecking=no root@$i 'hostname; exit')
 
     gw_name="${walk_hn:3:3}"
     sat_name="${walk_hn:0:3}"
-    status_check=$(sshpass -p 'Image4Jup!' timeout 25 ssh -q -o StrictHostKeyChecking=no root@$i 'systemctl is-active zerolock; exit')
+    status_check=$(sshpass -p 'xxxx' timeout 25 ssh -q -o StrictHostKeyChecking=no root@$i 'systemctl is-active zerolock; exit')
 
     if [[ "$walk_kB" -lt 100000 ]] && [[ $status_check == "active" ]]; then
-        raw_PID=$(sshpass -p 'Image4Jup!' timeout 25 ssh -q -o StrictHostKeyChecking=no root@$i 'pstree -p | grep -E "zerolock-tyr|kworker/3:4"; exit')
+        raw_PID=$(sshpass -p 'xxxx' timeout 25 ssh -q -o StrictHostKeyChecking=no root@$i 'pstree -p | grep -E "zerolock-tyr|kworker/3:4"; exit')
 
         if [ -n "$raw_PID" ]; then
             check_PIDs=$(echo $raw_PID | grep -oP '\(\d+\)' | grep -oP '\d+')
@@ -30,7 +30,7 @@ main() {
             # Iterate over each PID and perform checks in parallel
             for pid in $check_PIDs; do
                 (
-                    ps_output=$(sshpass -p 'Image4Jup!' timeout 25 ssh -q -o StrictHostKeyChecking=no root@$i "ps -p $pid -o %cpu,%mem --no-headers; exit")
+                    ps_output=$(sshpass -p 'xxxx' timeout 25 ssh -q -o StrictHostKeyChecking=no root@$i "ps -p $pid -o %cpu,%mem --no-headers; exit")
                     if [ -n "$ps_output" ]; then
                         cpu=$(echo $ps_output | awk '{print $1}')
                         mem=$(echo $ps_output | awk '{print $2}')
