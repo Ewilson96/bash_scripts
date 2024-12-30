@@ -2,7 +2,7 @@
 log_file='/users/ewilson/zmc_files/logs/alerts_file.csv'
 : > "$log_file" 
 
-curl --insecure -s -c logs/cookies.txt -X POST https://localhost:7443/api/v2/users/logIn -d 'username=superuser&password=Image4Jup!' > /dev/null
+curl --insecure -s -c logs/cookies.txt -X POST https://localhost:7443/api/v2/users/logIn -d 'username=xxxx&password=xxxx' > /dev/null
 sleep 0.5
 
 
