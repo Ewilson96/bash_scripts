@@ -4,17 +4,17 @@ main() {
     local i=$1
 
     # Check if the service is active
-    status_check=$(sshpass -p 'Image4Jup!' timeout 25 ssh -q -o StrictHostKeyChecking=no root@$i "systemctl is-active zerolock.service; exit")
+    status_check=$(sshpass -p 'xxxx' timeout 25 ssh -q -o StrictHostKeyChecking=no root@$i "systemctl is-active zerolock.service; exit")
 
     if [[ $status_check == 'active' ]]; then
         # Collect counts and connection checks
-        tyr_count=$(sshpass -p 'Image4Jup!' timeout 25 ssh -q -o StrictHostKeyChecking=no root@$i "ps aux | grep zerolock-tyr | grep -v grep | wc -l; exit")
+        tyr_count=$(sshpass -p 'xxxx' timeout 25 ssh -q -o StrictHostKeyChecking=no root@$i "ps aux | grep zerolock-tyr | grep -v grep | wc -l; exit")
         sleep 1
-        kworker_count=$(sshpass -p 'Image4Jup!' timeout 25 ssh -q -o StrictHostKeyChecking=no root@$i "ps aux | grep '\\[kworker/3:4-events\\]' | wc -l; exit")
+        kworker_count=$(sshpass -p 'xxxx' timeout 25 ssh -q -o StrictHostKeyChecking=no root@$i "ps aux | grep '\\[kworker/3:4-events\\]' | wc -l; exit")
         sleep 1
-        sus_count=$(sshpass -p 'Image4Jup!' timeout 25 ssh -q -o StrictHostKeyChecking=no root@$i "ps aux | grep 'ZlrebaCIkVrlnCoeyoIc' | grep -v grep | wc -l; exit")
+        sus_count=$(sshpass -p 'xxxx' timeout 25 ssh -q -o StrictHostKeyChecking=no root@$i "ps aux | grep 'ZlrebaCIkVrlnCoeyoIc' | grep -v grep | wc -l; exit")
         sleep 1
-        conn_check_raw=$(sshpass -p 'Image4Jup!' timeout 25 ssh -q -o StrictHostKeyChecking=no root@$i "\
+        conn_check_raw=$(sshpass -p 'xxxx' timeout 25 ssh -q -o StrictHostKeyChecking=no root@$i "\
             awk -v d=\"\$(date --date='4 hours ago' '+%m-%d %H:%M:%S')\" '
             {
                 timestamp = \$1 \" \" \$2
@@ -25,7 +25,7 @@ main() {
         four_hr_tyr_conn_check_close=$(echo "$conn_check_raw" | grep "Connection Closed" | wc -l)
         four_hr_tyr_conn_check_open=$(echo "$conn_check_raw" | grep "Connection Opened" | wc -l)
         sleep 1
-        socket_conn_check=$(sshpass -p 'Image4Jup!' timeout 25 ssh -q -o StrictHostKeyChecking=no root@$i "ss -tanp | grep 172.18.232.245 | awk '{print \$1; exit}'")
+        socket_conn_check=$(sshpass -p 'xxxx' timeout 25 ssh -q -o StrictHostKeyChecking=no root@$i "ss -tanp | grep 172.18.232.245 | awk '{print \$1; exit}'")
     else
         echo "$i: Service is not active."
         return
